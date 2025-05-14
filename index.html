@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chill Verse Minecraft Server</title>
+  <link rel="icon" href="minecraftlogo.png" type="image/png">
+  <style>
+    :root {
+      --primary-color: rgb(145, 94, 255);
+      --accent-color: rgb(200, 0, 255);
+      --text-color: rgb(255, 255, 255);
+      --shadow-color: rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://www.shutterstock.com/shutterstock/videos/1100561631/thumb/1.jpg?ip=x480') center/cover fixed;
+      color: var(--text-color);
+      text-align: center;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background: rgba(19, 0, 52, 0.9);
+      padding: 15px 20px;
+      box-shadow: 0 4px 8px var(--shadow-color);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo img {
+      height: 42px;
+      border-radius: 10px;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      position: relative;
+    }
+
+    nav a.active {
+      color: var(--accent-color);
+      font-weight: bold;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      height: 3px;
+      width: 0;
+      background: var(--accent-color);
+      transition: width 0.3s;
+    }
+
+    nav a:hover::after, nav a.active::after {
+      width: 100%;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .hero {
+      padding: 60px 20px;
+      position: relative;
+      background-attachment: fixed;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: inherit;
+      transform: translateY(0);
+      transition: transform 0.1s ease;
+      z-index: -1;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      color: var(--accent-color);
+      margin-bottom: 10px;
+      animation: fadeInSlideUp 1.5s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeInSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .server-buttons {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .server-buttons .button {
+      background: var(--primary-color);
+      color: var(--text-color);
+      padding: 18px 36px;
+      border-radius: 12px;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(145, 94, 255, 0.6);
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      width: 100%;
+      max-width: 400px;
+      font-size: 1.1rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .server-buttons .button:hover {
+      background: var(--accent-color);
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(200, 0, 255, 0.8);
+    }
+
+    .server-buttons .button.cta {
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      box-shadow: 0 4px 15px rgba(200, 0, 255, 0.7);
+    }
+
+    .server-buttons .button.cta:hover {
+      background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+      transform: scale(1.1);
+    }
+
+    .server-buttons .note {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .copy-notification {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary-color);
+      color: var(--text-color);
+      padding: 10px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(145, 94, 255, 0.6);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+      font-size: 1rem;
+    }
+
+    .copy-notification.show {
+      opacity: 1;
+    }
+
+    .social-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 40px 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 20px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 0 12px rgba(255, 0, 255, 0.3);
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(255, 0, 255, 0.5);
+    }
+
+    .card a {
+      text-decoration: none;
+      color: var(--text-color);
+      display: block;
+    }
+
+    .card img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 10px;
+      border-radius: 15px;
+      transition: transform 0.5s ease;
+    }
+
+    .card img:hover {
+      transform: rotate(360deg);
+    }
+
+    .card h3 {
+      margin: 10px 0 5px;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+    }
+
+    .server-updates {
+      padding: 40px 20px;
+    }
+
+    .server-updates h2 {
+      font-size: 2rem;
+      color: var(--accent-color);
+      margin-bottom: 30px;
+    }
+
+    .update-section {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .update-section h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .update-section ul {
+      list-style: none;
+    }
+
+    .update-section img {
+      max-width: 100%;
+      border-radius: 16px;
+      margin: 10px 0;
+    }
+
+    .enchant-table {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 900px;
+      overflow-x: auto;
+    }
+
+    .enchant-table table {
+      width: 100%;
+      border-collapse: collapse;
+      color: var(--text-color);
+    }
+
+    .enchant-table th, .enchant-table td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    .enchant-table thead {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .league-section {
+      padding: 40px 20px;
+      text-align: left;
+    }
+
+    .league-section .banner {
+      margin-bottom: 20px;
+    }
+
+    .league-section .banner img {
+      max-width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(145, 94, 255, 0.6);
+    }
+
+    .league-section h2 {
+      font-size: 2.5rem;
+      color: var(--accent-color);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .league-section .intro, .league-section .how-to-play {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .league-section h3 {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+
+    .league-section p, .league-section li {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .league-section a {
+      color: rgb(0, 229, 255);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .league-section a:hover {
+      text-decoration: underline;
+    }
+
+    .league-section ul {
+      list-style: none;
+      padding-left: 20px;
+    }
+
+    .league-section li::before {
+      content: "➡️";
+      color: var(--accent-color);
+      margin-right: 10px;
+    }
+
+    .carousel {
+      position: relative;
+      max-width: 100%;
+      margin: 20px auto;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(145, 94, 255, 0.6);
+    }
+
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+
+    .carousel-item {
+      flex: 0 0 100%;
+      width: 100%;
+      opacity: 0.7;
+      transition: opacity 0.5s ease;
+    }
+
+    .carousel-item.active {
+      opacity: 1;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 16px;
+    }
+
+    .carousel-item a {
+      display: block;
+      text-decoration: none;
+    }
+
+    .carousel-prev, .carousel-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: var(--text-color);
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 1.5rem;
+      border-radius: 50%;
+      transition: background 0.3s;
+    }
+
+    .carousel-prev:hover, .carousel-next:hover {
+      background: var(--accent-color);
+    }
+
+    .carousel-prev {
+      left: 10px;
+    }
+
+    .carousel-next {
+      right: 10px;
+    }
+
+    .video-player {
+      margin: 20px auto;
+      max-width: 560px;
+    }
+
+    .video-player iframe {
+      width: 100%;
+      height: 315px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(145, 94, 255, 0.6);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(3px);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal.show {
+      display: block;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: rgba(255, 255, 255, 0.1);
+      margin: 8% auto;
+      padding: 30px;
+      border-radius: 24px;
+      max-width: 550px;
+      color: var(--text-color);
+      box-shadow: 0 0 30px var(--shadow-color);
+      animation: slideDown 0.4s ease forwards;
+      position: relative;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-content h2 {
+      color: var(--accent-color);
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .modal-content a {
+      color: rgb(0, 229, 255);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--primary-color);
+      color: var(--text-color);
+      border-radius: 50%;
+      font-size: 20px;
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .close:hover {
+      background: var(--accent-color);
+    }
+
+    .donate-option {
+      margin-top: 20px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(6px);
+      padding: 30px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.95rem;
+    }
+
+    footer a {
+      color: #00e5ff;
+      text-decoration: none;
+      margin: 0 5px;
+    }
+
+    footer p {
+      margin: 5px 0;
+    }
+
+    /* CSS cho trạng thái server (giữ lại để tránh lỗi, dù không dùng) */
+    .server-status {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 40px auto;
+      max-width: 600px;
+      color: var(--text-color);
+      text-align: left;
+    }
+
+    .server-status h2 {
+      color: var(--accent-color);
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        margin-top: 10px;
+        flex-wrap: wrap;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .server-buttons .button {
+        max-width: 100%;
+        font-size: 0.95rem;
+        padding: 14px 24px;
+      }
+
+      nav a {
+        font-size: 0.9rem;
+      }
+
+      .league-section h2 {
+        font-size: 2rem;
+      }
+
+      .league-section h3 {
+        font-size: 1.5rem;
+      }
+
+      .carousel-prev, .carousel-next {
+        padding: 8px;
+        font-size: 1.2rem;
+      }
+
+      .video-player iframe {
+        height: 200px;
+      }
+
+      .copy-notification {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+
+      .server-status {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <div class="logo">
+        <a href="http://103.211.201.212/">
+          <img src="download (1).png" alt="Chill Verse Logo">
+        </a>
+      </div>
+      <nav>
+        <a href="#home" class="nav-link active" data-tab="home">Trang Chủ</a>
+        <a href="#features" class="nav-link" data-tab="features">Tính Năng Trong Chillverse</a>
+        <a href="#league" class="nav-link" data-tab="league">League of Minecraft</a>
+        <a id="donateBtn">Donate</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="home" class="tab-content active">
+      <div class="hero">
+        <h1>Khám phá thế giới Chill Verse cùng bạn bè!</h1>
+        <p><strong>Chill Verse là một Server Minecraft độc đáo và chill cho các tình iu!</strong></p>
+        <div class="server-buttons">
+          <button class="button" onclick="copyIP('mc.chillverse.site')">🖥️ Chill Verse: mc.chillverse.site</button>
+          <button class="button" onclick="copyIP('mc.chillverse.site:8386')">🎮 League of Minecraft: mc.chillverse.site:8386</button>
+          <a href="https://discord.gg/zDecgJAJER" class="button cta">Tham gia ngay!</a>
+          <p class="note">Phải đăng kí tài khoản trong Discord🗝️ | Version: 🖥️PC: 1.21.1 ↑</p>
+        </div>
+      </div>
+      <div class="social-links">
+        <div class="card">
+          <a href="https://www.facebook.com/profile.php?id=61575008814631" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook" />
+            <h3>Page Facebook</h3>
+            <p>Nhấn để xem!</p>
+          </a>
+        </div>
+        <div class="card">
+          <a href="https://discord.gg/zDecgJAJER" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" />
+            <h3><strong>Discord</strong></h3>
+            <p>Tham gia cùng mọi người!</p>
+            <p><strong>Và Đăng Kí Tài Khoản Tại Đây!</strong></p>
+          </a>
+        </div>
+        <div class="card">
+          <a href="https://www.youtube.com/@sukidesu1412" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" />
+            <h3>YouTube</h3>
+            <p>Vào Ủng Hộ Kênh Của Owner 💖</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="tab-content">
+      <div class="server-updates">
+        <h2>✨ Các Điểm Độc Đáo Của Server!</h2>
+        <div class="update-section">
+          <h3>💱 Hệ Thống Chợ Đen</h3>
+          <ul>
+            <li>Cho Phép Người Chơi Treo Đồ Và Bán Trên /ah</li>
+          </ul>
+        </div>
+        <div class="update-section">
+          <h3>✨🔨 Trang Trí Công Cụ Và Vũ Khí</h3>
+          <ul>
+            <li><img src="https://imgur.com/3uJ8HCF.gif" alt="Weapon Decoration" width="300" /></li>
+            <li><img src="https://imgur.com/fMgLznI.gif" alt="Tool Decoration" width="300" /></li>
+          </ul>
+        </div>
+        <div class="update-section">
+          <h3>🍔 Thêm Hơn 40 Loại Món Ăn Mới!</h3>
+          <ul>
+            <li><img src="https://cdn.modrinth.com/data/3BlwZj8w/images/40b4ae8d759c3e074d2e0aaaae9182396f118f09.png" alt="New Food 1" width="300" /></li>
+            <li><img src="https://cdn.modrinth.com/data/3BlwZj8w/images/203f03f1938f390bc578047cbcc49a9473180813.png" alt="New Food 2" width="300" /></li>
+          </ul>
+        </div>
+        <div class="update-section">
+          <h3>🔥 Lò Nung Nâng Cấp!</h3>
+          <ul>
+            <li><img src="https://cdn.modrinth.com/data/kJjhh2ZO/images/4a17114bdef2db198946c705f69a892ed1bba72a.png" alt="Upgraded Furnace" width="600" /></li>
+          </ul>
+        </div>
+        <div class="update-section">
+          <h3>💼 Hệ Thống Nghề Nghiệp</h3>
+          <ul>
+            <li>Giúp Người Chơi Kiếm Tiền Từ Các Nghề!</li>
+          </ul>
+        </div>
+        <div class="update-section">
+          <h3>🔐 Đăng Nhập Bằng Discord</h3>
+          <ul>
+            <li>✅ Giúp Người Chơi Không Bị Đăng Trái Phép, Đăng Nhập Đơn Giản Chỉ Cần Nhấn Nút, Giúp Admin Quản Lý Member</li>
+          </ul>
+        </div>
+        <div class="update-section">
+          <h3>🏆 Hơn 1000 Thành Tựu Mới!</h3>
+          <ul>
+            <li>Thêm Hơn 1000 Thành Tựu Mới Và 1 Số Thành Tựu Sẽ Cho Bạn Thêm Phần Thưởng 🎉!</li>
+            <li>Làm Cho Server Có Câu Là <i>'Cứ 5 phút là được 1 thành tựu ...'</i></li>
+            <li><img src="https://cdn.modrinth.com/data/VoVJ47kN/images/a7caab3ea942293d1279626c068c43a72dfdeec6.png" alt="Achievements" width="600" /></li>
+          </ul>
+        </div>
+        <div class="enchant-table">
+          <h2>📖 Danh sách Enchant mở rộng</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Enchantment</th>
+                <th>Max Level</th>
+                <th>Detail</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Aqua Affinity</td><td>5</td><td>Allows you to breathe longer underwater</td></tr>
+              <tr><td>Bane of Arthropods</td><td>10</td><td>Increases damage against arthropods</td></tr>
+              <tr><td>Blast Protection</td><td>7</td><td>Reduces damage from explosions</td></tr>
+              <tr><td>Breach</td><td>5</td><td>Reduce armor effectiveness</td></tr>
+              <tr><td>Channeling</td><td>5</td><td>Summons lightning at the target</td></tr>
+              <tr><td>Density</td><td>5</td><td>Increases the smash attack per block with mace</td></tr>
+              <tr><td>Depth Strider</td><td>3</td><td>Increases underwater movement speed</td></tr>
+              <tr><td>Efficiency</td><td>10</td><td>Increases mining speed</td></tr>
+              <tr><td>Feather Falling</td><td>10</td><td>Reduces fall damage</td></tr>
+              <tr><td>Fire Aspect</td><td>4</td><td>The time of ignite is increased</td></tr>
+              <tr><td>Fire Protection</td><td>7</td><td>Reduces damage from fire</td></tr>
+              <tr><td>Flame</td><td>5</td><td>The time of ignite is increased</td></tr>
+              <tr><td>Fortune</td><td>5</td><td>Increases block drops</td></tr>
+              <tr><td>Frost Walker</td><td>8</td><td>Freezes water</td></tr>
+              <tr><td>Impaling</td><td>10</td><td>Increases damage against sea creatures</td></tr>
+              <tr><td>Knockback</td><td>10</td><td>Increases knockback</td></tr>
+              <tr><td>Looting</td><td>5</td><td>Increases mob drops</td></tr>
+              <tr><td>Loyalty</td><td>8</td><td>Increases trident return speed</td></tr>
+              <tr><td>Luck of the Sea</td><td>5</td><td>Increases fishing luck</td></tr>
+              <tr><td>Lure</td><td>5</td><td>Increases fishing speed</td></tr>
+              <tr><td>Mending</td><td>5</td><td>The repairs is increased for each level</td></tr>
+              <tr><td>Multishot</td><td>3</td><td>Shoot more arrows at once</td></tr>
+              <tr><td>Piercing</td><td>10</td><td>Arrows can pierce through multiple entities</td></tr>
+              <tr><td>Power</td><td>7</td><td>Increases bow damage</td></tr>
+              <tr><td>Projectile Protection</td><td>7</td><td>Reduces damage from projectiles</td></tr>
+              <tr><td>Protection</td><td>5</td><td>Reduces all damage</td></tr>
+              <tr><td>Punch</td><td>10</td><td>Increases arrow knockback</td></tr>
+              <tr><td>Quick Charge</td><td>5</td><td>Reduces crossbow reload time</td></tr>
+              <tr><td>Respiration</td><td>8</td><td>Increases the number oxygen bubbles</td></tr>
+              <tr><td>Riptide</td><td>8</td><td>Launches the player when thrown</td></tr>
+              <tr><td>Sharpness</td><td>7</td><td>Increases melee damage</td></tr>
+              <tr><td>Smite</td><td>10</td><td>Increases damage against undead</td></tr>
+              <tr><td>Soul Speed</td><td>7</td><td>Increases movement speed on soul sand</td></tr>
+              <tr><td>Sweeping Edge</td><td>10</td><td>Increases sweep attack damage</td></tr>
+              <tr><td>Swift Sneak</td><td>7</td><td>Increases sneaking speed</td></tr>
+              <tr><td>Thorns</td><td>4</td><td>Damages attackers</td></tr>
+              <tr><td>Unbreaking</td><td>10</td><td>Increases item durability</td></tr>
+              <tr><td>Wind Burst</td><td>5</td><td>Increases the wind charge knockback</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="update-section">
+          <h3>Nhiều Thứ Độc Lạ Bình Dương Trong Đây Lắm Nè! Vào Khám Phá Nhé!</h3>
+        </div>
+        <div class="video-player">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/dRCd-0jyAJE?start=1597" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section id="league" class="tab-content">
+      <div class="league-section">
+        <div class="banner">
+          <img src="https://i3.ytimg.com/vi/L4Z_8QlVRPk/maxresdefault.jpg" alt="League of Minecraft Banner">
+        </div>
+        <div class="carousel">
+          <div class="carousel-inner" id="carouselInner">
+            <div class="carousel-item">
+              <a href="https://www.youtube.com/watch?v=L4Z_8QlVRPk&t" target="_blank">
+                <img src="https://media-hosting.imagekit.io/db29964ddb684594/screenshot_1747051642297.png?Expires=1841659644&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=vCNY29cjDR136himg2CCv9ZVFPhheA5mSpzwv6kqO1JJOCj6zz7onhcROZFEYAac7JXOqh-P2OuEYnOcmNY546KJv67TR-IGl7BdVq-KNfCB4L99fI-gmRks8UyBG7CAw73NrGNDMqAskUWCtSqbOc8kcK2W~EiMla0RG5GOX2FCsRn6HadinCxYjvaGcuMNrs9ue3167-AaH30lE-ITcd0tdxkH63CNW5tn3~oRMBS5TtL1DCgXGCSKuGn9CO8efVOvEylNSD1AE8aoaU7JFvUtDFoLcFB6qWld24OtbdJantxo1Djm~eHIRigtu7WCi2~R-epORhwG1TVZZP1Mxw__" alt="League of Minecraft Screenshot 1">
+              </a>
+            </div>
+            <div class="carousel-item">
+              <img src="https://media-hosting.imagekit.io/6639f030221a4a50/screenshot_1747051608214.png?Expires=1841659609&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=JE4qOiGbqg~coNEoGwedSOh3oo8bF2m3Rckl-Mq2KqTscYx~v4K97HvUIXUfZfTvd7zXjjwLvTxp08F22R8b1DEJ7O430Mc~UkpkHO2iCLV4mihH6591Yc1FovZ7Db-35kERNK1Qq5pMWAX5UgQHd65wzhr6ddECXuDJ8JShKQ52utaOtCFQ5YK0l0rRtjzbhVeCeoeSDw7P-KQ1dWjWDBOc13GOhvLbVswkCqS9Zd8Oq69vJ7TNlhzUiCxmfN-zEC~WNFeaKLwk8TlJL8ubNhPqTrd1vhkydrhrPZzihPd1~OaYEWhGSOlfAl64s1l3EjC8YC4vbtmRBg9kRTHNoA__" alt="League of Minecraft Screenshot 2">
+            </div>
+            <div class="carousel-item">
+              <img src="https://media-hosting.imagekit.io/a5bf181e667f4c4d/screenshot_1747051674118.png?Expires=1841659675&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=Um4sEEXGuTh3BgDVL6v9CyO3UxrEuVavGVEGdn1f54RtsxVA1b34QQWBimFfW7VoUSC9rB-szkv97meP--uZdFHiDjpXjbAuqc65HB5ofM2XoaR9Qg~UFwBVlbz5u5yCCFbvRCq1hFrO6iwm7YXN~Ayjr2pgNx5bBImlMDqZr5ZCtZIMLJl0ddZDTjXVpc2a7Zk4ao2di2wFdi~gmSQtrJE7ZAblgNkHrb7fGQsJOw8eVh~FR6r6bYhrk9I4zflTYW5gWWCNmabF9c3KKrL9Hlq1G9mWYdchmspehUS2zZLuXWSvie9g7D6LodEi~R9nXM1zSlfmODrU~HaLuoIcDQ__" alt="League of Minecraft Screenshot 3">
+            </div>
+            <div class="carousel-item">
+              <img src="https://media-hosting.imagekit.io/83547ed98837487d/screenshot_1747051680027.png?Expires=1841659681&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=Gas6cxU6xOfGbmspTc6oc6-RPStlPiYHUI67nNPVsplFNZ9ao~CDNSTHIDpKQmwuELTT2Z7T~W-e3XqvymJgf0QXkZaQYzVaYaT6uGeKvzS~hO9fp8kvhIBS0gf-n3YGCgzDJvgjFvnNmuMRGm4-fRgZaPo2AWhRxicWO0mdjBdfAd0AFTCNN5xyBNbQb4nBxzgR63qed-tY-JJsLXq5gaEoUoNJdgGY4i0U-3qRxMvRXrPdW2W~41XjRFjViiddlKNNaQYi2HBkzKWn5MvAB3MVOBkQpx58noKsOqEY4cVWNMtBtGfNV4bu9bCz8vzK2Vm8i7OzsIVnJxLLs3mRcQ__" alt="League of Minecraft Screenshot 4">
+            </div>
+            <div class="carousel-item">
+              <img src="https://media-hosting.imagekit.io/d0b6ad52f6864f11/screenshot_1747051695728.png?Expires=1841659697&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=bRuvjrYDkJtR2~SgOdTy-o6ckKR57INx-bgx7q9wEI4y50Of0WilX9rAfqsBGc4EwaCScuGX7UMnQzlxQ1wH2opYg1dDFEiCbCAmMkoA8wzpVWxCvdOx-W9on94pzEE~FkfPF~dIve9VlcC9rmMThRZZ4cGLv0ZeJvKxEUA1QJYiDU5Gh5~8COdMyiDFKX4reSvlY-YTcVvTL-MJUASF5jnk8blezogRUX30S-D4ZSLdU3gwxeAchjlU4WABOsPOaYncLzD5Q8nxiQ3lxeD1LiC1yUXhi3YDkqF1qttiqUh53lpGZNCyFI3EoquGy~1ovXKYsChleARDWRtBWjCK~w__" alt="League of Minecraft Screenshot 5">
+            </div>
+            <div class="carousel-item">
+              <img src="https://media-hosting.imagekit.io/9a8462f6d36746fb/screenshot_1747051837156.png?Expires=1841659838&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=CHQNwWxCRPkSm~Y8mWPGL0FmfGPGTt0Cr7vDggrknFpAOCBCBDW6FlZLKuUF~5WfsTQu-vmD7~V10bwLImoEgw-ho5BiOsdw03OUtmwhffUsZYwN~-9oGKc4rRSLqDT5hBE9-MdMTTbjFuJQAwefLmixxILaJ6mE1nrNvGHnXocu5a91MBvmonWP21ZpnirTynj~-FdDJ8uoHhmLQ76viTUonbQXknFdddRRmsjfh8jcA81mabzkx6orNBHb~TbnTgD2r-qcRE1U1IdEi5QTrpc8y~fu3SxyJUEQE-GG857IptvWshe9Y9d-Jb4cf1WZZXvXRxgOTwVytUPW6-3PCA__" alt="League of Minecraft Screenshot 6">
+            </div>
+            <div class="carousel-item">
+              <img src="https://img.youtube.com/vi/BgpQyhAMC7E/maxresdefault.jpg" alt="League of Minecraft Screenshot 7">
+            </div>
+            <div class="carousel-item">
+              <img src="https://img.youtube.com/vi/75WGIg90rK8/maxresdefault.jpg" alt="League of Minecraft Screenshot 8">
+            </div>
+            <div class="carousel-item">
+              <img src="https://img.youtube.com/vi/SmNNPxF6oPQ/maxresdefault.jpg" alt="League of Minecraft Screenshot 9">
+            </div>
+          </div>
+          <button class="carousel-prev" onclick="moveCarousel(-1)">❮</button>
+          <button class="carousel-next" onclick="moveCarousel(1)">❯</button>
+        </div>
+        <h2>CHÀO MỪNG BẠN ĐẾN VỚI LEAGUE OF MINECRAFT</h2>
+        <div class="intro">
+          <h3>Người Sáng Tạo</h3>
+          <p>Chủ Map (Cre): 
+            <strong><a href="https://www.youtube.com/@BiggieAnhD" target="_blank">BigD</a></strong> (YouTube: Worker BigD) và 
+            <strong><a href="https://www.youtube.com/@kaitouaonhayy" target="_blank">KaiTou</a></strong> (YouTube: Thợ Kaitou)
+          </p>
+          <p>Với sự đồng ý của hai nhà phát triển này, Server Chillverse đã phát triển thêm cụm mini-game độc đáo này.</p>
+          <h3>Giới Thiệu</h3>
+          <p>League of Minecraft là một server mini-game thuộc dạng chọn tướng và PvP, nơi người chơi sử dụng các kỹ năng đa dạng của mỗi tướng để chiến đấu. Trải nghiệm chiến thuật và hành động đỉnh cao trong thế giới Minecraft!</p>
+        </div>
+        <div class="how-to-play">
+          <h3>Cách Chơi</h3>
+          <ul>
+            <li>Nhấn <strong>E</strong> để mở menu.</li>
+            <li>Chọn đội (Team).</li>
+            <li>Bắt đầu chọn tướng.</li>
+            <li>Pick tướng phù hợp với chiến thuật của bạn.</li>
+            <li>Bắt đầu màn chơi và chiến đấu!</li>
+            <li><strong>Lưu ý:</strong> Các kỹ năng của tướng được chú thích rõ ràng trên mỗi item của tướng trong game.</li>
+          </ul>
+        </div>
+        <div class="video-player">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/tqh_BB3zAaM?start=9858" title="League of Minecraft Gameplay" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="donateModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeDonateModal">×</span>
+      <h2>Ủng hộ Server Chill Verse</h2>
+      <div class="donate-option">
+        <p>💸 Donate qua Discord (trực tiếp cho <strong>Suki</strong>):<br>
+        💬 <strong>Tài khoản Discord: sukidesu1412</strong> (Khuyến khích)</p>
+      </div>
+      <div class="donate-option">
+        <p>⚙️ Donate qua <strong>/napthe</strong> trong server</p>
+        <p>💲 Mua rank tại <strong>/rank</strong> trong server</p>
+      </div>
+      <div class="donate-option">
+        <p><a href="https://playerduo.net/sukidesuarata" target="_blank">Donate qua PlayerDuo</a></p>
+      </div>
+      <div class="donate-option">
+        <p>Đặc Quyền Vip Xem Tại <a href="https://discord.com/channels/1264241452708266035/1309160772688941077" target="_blank"><strong>🔰『♣』rank</strong></a></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="copyNotification" class="copy-notification">Đã sao chép thành công!</div>
+
+  <footer>
+    <div class="container">
+      <p>🌐 IP Server: <strong>chillverse.site</strong></p>
+      <p>🔗 Theo dõi chúng tôi: 
+        <a href="https://discord.gg/zDecgJAJER" target="_blank">Discord</a> • 
+        <a href="https://www.youtube.com/@sukidesu1412" target="_blank">YouTube</a> • 
+        <a href="https://www.facebook.com/profile.php?id=61575008814631" target="_blank">Facebook</a>
+      </p>
+      <p>💖 Donate: <a href="https://playerduo.net/sukidesuarata" target="_blank">PlayerDuo</a></p>
+      <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem;">© 2025 Chill Verse Minecraft Server. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const donateModal = document.getElementById("donateModal");
+    const donateBtn = document.getElementById("donateBtn");
+    const closeDonate = document.getElementById("closeDonateModal");
+    const navLinks = document.querySelectorAll(".nav-link");
+    const tabContents = document.querySelectorAll(".tab-content");
+    const copyNotification = document.getElementById("copyNotification");
+
+    donateBtn.onclick = () => donateModal.classList.add("show");
+    closeDonate.onclick = () => donateModal.classList.remove("show");
+    window.onclick = (e) => {
+      if (e.target === donateModal) donateModal.classList.remove("show");
+    };
+
+    navLinks.forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        navLinks.forEach(l => l.classList.remove("active"));
+        tabContents.forEach(content => content.classList.remove("active"));
+
+        link.classList.add("active");
+        document.getElementById(link.dataset.tab).classList.add("active");
+        document.getElementById(link.dataset.tab).scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+    let currentSlide = 0;
+    const carouselInner = document.getElementById("carouselInner");
+    const slides = document.querySelectorAll(".carousel-item");
+
+    function moveCarousel(direction) {
+      const totalSlides = slides.length;
+      slides.forEach(slide => slide.classList.remove("active"));
+      currentSlide += direction;
+      if (currentSlide >= totalSlides) {
+        currentSlide = 0;
+      } else if (currentSlide < 0) {
+        currentSlide = totalSlides - 1;
+      }
+      carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
+      slides[currentSlide].classList.add("active");
+    }
+
+    function copyIP(ip) {
+      console.log("Attempting to copy IP:", ip);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(ip).then(() => {
+          console.log("IP copied successfully!");
+          showNotification();
+        }).catch(err => {
+          console.error("Clipboard API failed:", err);
+          fallbackCopy(ip);
+        });
+      } else {
+        console.log("Clipboard API not supported, using fallback");
+        fallbackCopy(ip);
+      }
+    }
+
+    function fallbackCopy(ip) {
+      const textarea = document.createElement("textarea");
+      textarea.value = ip;
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand("copy");
+        console.log("Fallback copy successful!");
+        showNotification();
+      } catch (err) {
+        console.error("Fallback copy failed:", err);
+        showNotification();
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function showNotification() {
+      copyNotification.classList.add("show");
+      setTimeout(() => {
+        copyNotification.classList.remove("show");
+      }, 2000);
+    }
+
+    window.addEventListener('scroll', () => {
+      const hero = document.querySelector('.hero');
+      const scrollPosition = window.scrollY;
+      hero.querySelector('::before').style.transform = `translateY(${scrollPosition * 0.2}px)`;
+    });
+
+    slides[currentSlide].classList.add("active");
+  </script>
+</body>
+</html>
