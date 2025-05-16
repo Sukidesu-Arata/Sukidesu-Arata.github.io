@@ -19,6 +19,14 @@
 
   <link rel="icon" href="minecraftlogo.png" type="image/png">
   <style>
+    @font-face {
+      font-family: 'Minecraft Regular';
+      src: url('fonts/MinecraftRegular-Bmg3.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
     :root {
       --primary-color: rgb(145, 94, 255);
       --accent-color: rgb(200, 0, 255);
@@ -33,7 +41,7 @@
     }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Minecraft Regular', sans-serif;
       background: url('https://64.media.tumblr.com/ebea5e3f5a97fca254af9facea9fd81f/tumblr_pvfxt4qnND1qemas4o1_540.gif') center/cover fixed;
       color: var(--text-color);
       text-align: center;
@@ -616,6 +624,10 @@
       .server-status {
         max-width: 100%;
       }
+
+      .server-performance > div {
+        height: 400px;
+      }
     }
   </style>
 </head>
@@ -670,6 +682,20 @@
             <h3>YouTube</h3>
             <p>Vào Ủng Hộ Kênh Của Owner 💖</p>
           </a>
+        </div>
+      </div>
+      <!-- Phần iframe Server Performance đã chỉnh sửa -->
+      <div class="server-performance" style="padding: 40px 20px;">
+        <h2 style="font-size: 2rem; color: var(--accent-color); margin-bottom: 20px;">📊 Server Performance</h2>
+        <div style="position: relative; width: 100%; height: 600px; background: rgba(0, 0, 0, 0.5); border-radius: 16px; box-shadow: 0 4px 12px rgba(145, 94, 255, 0.6);">
+          <iframe
+            id="statsFrame"
+            src="https://stats.chillverse.site/server/Server%201/performance"
+            width="100%"
+            height="100%"
+            style="border: none;"
+            scrolling="yes"
+          ></iframe>
         </div>
       </div>
     </section>
@@ -978,6 +1004,26 @@
     });
 
     slides[currentSlide].classList.add("active");
+
+    // Script cho iframe Server Performance
+    const iframe = document.getElementById('statsFrame');
+    iframe.addEventListener('load', () => {
+      const blocker = document.createElement('div');
+      blocker.style.position = 'absolute';
+      blocker.style.top = '0';
+      blocker.style.left = '0';
+      blocker.style.right = '0';
+      blocker.style.bottom = '0';
+      blocker.style.zIndex = '10';
+      blocker.style.background = 'transparent';
+      blocker.style.pointerEvents = 'auto';
+
+      ['click', 'mousedown', 'mouseup', 'dblclick', 'contextmenu'].forEach(event => {
+        blocker.addEventListener(event, e => e.stopPropagation());
+      });
+
+      iframe.parentElement.appendChild(blocker);
+    });
   </script>
 </body>
 </html>
