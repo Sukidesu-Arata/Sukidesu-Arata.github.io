@@ -558,7 +558,6 @@
       margin: 5px 0;
     }
 
-    /* CSS cho trạng thái server (giữ lại để tránh lỗi, dù không dùng) */
     .server-status {
       background: rgba(0, 0, 0, 0.5);
       border-radius: 16px;
@@ -684,7 +683,6 @@
           </a>
         </div>
       </div>
-      <!-- Phần iframe Server Performance đã chỉnh sửa -->
       <div class="server-performance" style="padding: 40px 20px;">
         <h2 style="font-size: 2rem; color: var(--accent-color); margin-bottom: 20px;">📊 Server Performance</h2>
         <div style="position: relative; width: 100%; height: 600px; background: rgba(0, 0, 0, 0.5); border-radius: 16px; box-shadow: 0 4px 12px rgba(145, 94, 255, 0.6);">
@@ -730,54 +728,99 @@
           </ul>
         </div>
         <div class="enchant-table">
-          <h2>📖 Danh sách Enchant mở rộng</h2>
+          <h2>📖 Danh sách Enchant Mở Rộng</h2>
           <table>
             <thead>
               <tr>
-                <th>Enchantment</th>
-                <th>Max Level</th>
-                <th>Detail</th>
+                <th>Tên</th>
+                <th>Tóm Tắt</th>
+                <th>Không Tương Thích Với</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td>Aqua Affinity</td><td>5</td><td>Allows you to breathe longer underwater</td></tr>
-              <tr><td>Bane of Arthropods</td><td>10</td><td>Increases damage against arthropods</td></tr>
-              <tr><td>Blast Protection</td><td>7</td><td>Reduces damage from explosions</td></tr>
-              <tr><td>Breach</td><td>5</td><td>Reduce armor effectiveness</td></tr>
-              <tr><td>Channeling</td><td>5</td><td>Summons lightning at the target</td></tr>
-              <tr><td>Density</td><td>5</td><td>Increases the smash attack per block with mace</td></tr>
-              <tr><td>Depth Strider</td><td>3</td><td>Increases underwater movement speed</td></tr>
-              <tr><td>Efficiency</td><td>10</td><td>Increases mining speed</td></tr>
-              <tr><td>Feather Falling</td><td>10</td><td>Reduces fall damage</td></tr>
-              <tr><td>Fire Aspect</td><td>4</td><td>The time of ignite is increased</td></tr>
-              <tr><td>Fire Protection</td><td>7</td><td>Reduces damage from fire</td></tr>
-              <tr><td>Flame</td><td>5</td><td>The time of ignite is increased</td></tr>
-              <tr><td>Fortune</td><td>5</td><td>Increases block drops</td></tr>
-              <tr><td>Frost Walker</td><td>8</td><td>Freezes water</td></tr>
-              <tr><td>Impaling</td><td>10</td><td>Increases damage against sea creatures</td></tr>
-              <tr><td>Knockback</td><td>10</td><td>Increases knockback</td></tr>
-              <tr><td>Looting</td><td>5</td><td>Increases mob drops</td></tr>
-              <tr><td>Loyalty</td><td>8</td><td>Increases trident return speed</td></tr>
-              <tr><td>Luck of the Sea</td><td>5</td><td>Increases fishing luck</td></tr>
-              <tr><td>Lure</td><td>5</td><td>Increases fishing speed</td></tr>
-              <tr><td>Mending</td><td>5</td><td>The repairs is increased for each level</td></tr>
-              <tr><td>Multishot</td><td>3</td><td>Shoot more arrows at once</td></tr>
-              <tr><td>Piercing</td><td>10</td><td>Arrows can pierce through multiple entities</td></tr>
-              <tr><td>Power</td><td>7</td><td>Increases bow damage</td></tr>
-              <tr><td>Projectile Protection</td><td>7</td><td>Reduces damage from projectiles</td></tr>
-              <tr><td>Protection</td><td>5</td><td>Reduces all damage</td></tr>
-              <tr><td>Punch</td><td>10</td><td>Increases arrow knockback</td></tr>
-              <tr><td>Quick Charge</td><td>5</td><td>Reduces crossbow reload time</td></tr>
-              <tr><td>Respiration</td><td>8</td><td>Increases the number oxygen bubbles</td></tr>
-              <tr><td>Riptide</td><td>8</td><td>Launches the player when thrown</td></tr>
-              <tr><td>Sharpness</td><td>7</td><td>Increases melee damage</td></tr>
-              <tr><td>Smite</td><td>10</td><td>Increases damage against undead</td></tr>
-              <tr><td>Soul Speed</td><td>7</td><td>Increases movement speed on soul sand</td></tr>
-              <tr><td>Sweeping Edge</td><td>10</td><td>Increases sweep attack damage</td></tr>
-              <tr><td>Swift Sneak</td><td>7</td><td>Increases sneaking speed</td></tr>
-              <tr><td>Thorns</td><td>4</td><td>Damages attackers</td></tr>
-              <tr><td>Unbreaking</td><td>10</td><td>Increases item durability</td></tr>
-              <tr><td>Wind Burst</td><td>5</td><td>Increases the wind charge knockback</td></tr>
+              <!-- Armor Enchantments -->
+              <tr><td>Cold Steel</td><td>Gây hiệu ứng <strong>Mệt mỏi Đào</strong> cho kẻ tấn công.</td><td></td></tr>
+              <tr><td>Darkness Cloak</td><td>Gây hiệu ứng <strong>Bóng Tối</strong> cho kẻ tấn công.</td><td></td></tr>
+              <tr><td>Elemental Protection</td><td>Giảm sát thương từ thuốc độc và nguyên tố (lửa, sét, v.v.).</td><td></td></tr>
+              <tr><td>Fire Shield</td><td>Đốt cháy kẻ tấn công.</td><td></td></tr>
+              <tr><td>Flame Walker</td><td>Cho phép đi trên dung nham, miễn nhiễm sát thương từ khối magma.</td><td>Frost Walker</td></tr>
+              <tr><td>Hardened</td><td>Nhận hiệu ứng <strong>Kháng Sát Thương</strong> khi bị tấn công.</td><td></td></tr>
+              <tr><td>Ice Shield</td><td>Làm đóng băng và làm chậm kẻ tấn công.</td><td></td></tr>
+              <tr><td>Jumping</td><td>Nhận hiệu ứng <strong>Nhảy Cao</strong>.</td><td></td></tr>
+              <tr><td>Kamikadze</td><td>Gây nổ khi bạn chết.</td><td></td></tr>
+              <tr><td>Night Vision</td><td>Nhận hiệu ứng <strong>Nhìn Đêm</strong>.</td><td></td></tr>
+              <tr><td>Rebound</td><td>Giảm độ bật lùi, như rơi xuống khối slime.</td><td>Feather Falling</td></tr>
+              <tr><td>Regrowth</td><td>Hồi máu dần theo thời gian.</td><td></td></tr>
+              <tr><td>Saturation</td><td>Hồi điểm đói dần theo thời gian.</td><td></td></tr>
+              <tr><td>Speed</td><td>Nhận hiệu ứng <strong>Tăng Tốc</strong>.</td><td></td></tr>
+              <tr><td>Stopping Force</td><td>Giảm độ đẩy lùi khi bị tấn công.</td><td></td></tr>
+              <tr><td>Water Breathing</td><td>Nhận hiệu ứng <strong>Thở Dưới Nước</strong>.</td><td></td></tr>
+              <!-- Bow Enchantments -->
+              <tr><td>Bomber</td><td>Bắn <strong>TNT</strong> thay vì mũi tên.</td><td>(Non-)Arrow enchants</td></tr>
+              <tr><td>Confusing Arrows</td><td>Gây hiệu ứng <strong>Buồn Nôn</strong> khi bắn trúng.</td><td>Non-Arrow enchants</td></tr>
+              <tr><td>Darkness Arrows</td><td>Gây hiệu ứng <strong>Bóng Tối</strong> khi bắn trúng.</td><td>Non-Arrow enchants</td></tr>
+              <tr><td>Dragonfire Arrows</td><td>Gây hiệu ứng <strong>Hơi Thở Rồng</strong> khi bắn trúng.</td><td>Non-Arrow enchants</td></tr>
+              <tr><td>Electrified Arrows</td><td>Triệu hồi <strong>Sét</strong> khi bắn trúng.</td><td>Non-Arrow enchants</td></tr>
+              <tr><td>Ender Bow</td><td>Bắn <strong>Ngọc Ender</strong> thay vì mũi tên.</td><td>(Non-)Arrow enchants</td></tr>
+              <tr><td>Explosive Arrows</td><td>Mũi tên gây <strong>Nổ</strong> khi bắn trúng.</td><td>Non-Arrow enchants</td></tr>
+              <tr><td>Flare</td><td>Đặt <strong>Đuốc</strong> ở nơi mũi tên rơi.</td><td>Non-Arrow enchants</td></tr>
+              <tr><td>Ghast</td><td>Bắn <strong>Quả Cầu Lửa</strong> thay vì mũi tên.</td><td>(Non-)Arrow enchants</td></tr>
+              <tr><td>Hover</td><td>Gây hiệu ứng <strong>Lơ Lửng</strong> khi bắn trúng.</td><td>Non-Arrow enchants</td></tr>
+              <tr><td>Lingering</td><td>Mũi tên tạo hiệu ứng <strong>Lưu Lại</strong> (như bình thuốc ném) khi bắn trúng.</td><td>Non-Arrow enchants</td></tr>
+              <tr><td>Poisoned Arrows</td><td>Gây hiệu ứng <strong>Độc</strong> khi bắn trúng.</td><td>Non-Arrow enchants</td></tr>
+              <tr><td>Sniper</td><td>Tăng tốc độ bay của mũi tên.</td><td></td></tr>
+              <tr><td>Vampiric Arrows</td><td>Hồi máu cho bạn khi bắn trúng.</td><td>Non-Arrow enchants</td></tr>
+              <tr><td>Withered Arrows</td><td>Gây hiệu ứng <strong>Héo Úa</strong> khi bắn trúng.</td><td>Non-Arrow enchants</td></tr>
+              <!-- Tool Enchantments -->
+              <tr><td>Blast Mining</td><td>Đào khối bằng <strong>Nổ</strong> (như TNT).</td><td>Tunnel, Veinminer</td></tr>
+              <tr><td>Haste</td><td>Nhận hiệu ứng <strong>Nhanh Nhẹn</strong> khi đào.</td><td></td></tr>
+              <tr><td>Lucky Miner</td><td>Tạo thêm <strong>XP</strong> khi đào khối.</td><td></td></tr>
+              <tr><td>Replanter</td><td>Tự động trồng lại cây trồng khi thu hoạch hoặc click phải.</td><td></td></tr>
+              <tr><td>Silk Chest</td><td>Rơi <strong>Rương</strong> giữ nguyên nội dung khi phá.</td><td></td></tr>
+              <tr><td>Silk Spawner</td><td>Có cơ hội thu được <strong>Máy Sinh Quái</strong> khi phá.</td><td>Smelter</td></tr>
+              <tr><td>Smelter</td><td>Tự động <strong>Nung</strong> vật phẩm rơi ra (theo công thức lò).</td><td>Silk Touch, Silk Spawner</td></tr>
+              <tr><td>Telekinesis</td><td>Tự động đưa vật phẩm đào được vào inventory.</td><td></td></tr>
+              <tr><td>Tunnel</td><td>Đào khu vực rộng (1x2, 2x2, 3x3).</td><td>Veinminer, Blast Mining</td></tr>
+              <tr><td>Veinminer</td><td>Đào toàn bộ mạch quặng cùng lúc.</td><td>Tunnel, Blast Mining</td></tr>
+              <!-- Fishing Enchantments -->
+              <tr><td>Auto Reel</td><td>Tự động thu dây khi cá cắn câu.</td><td></td></tr>
+              <tr><td>Curse of Drowned</td><td>Có cơ hội câu được <strong>Drowned</strong> (xác sống dưới nước).</td><td></td></tr>
+              <tr><td>Double Catch</td><td>Nhân đôi số lượng vật phẩm câu được.</td><td></td></tr>
+              <tr><td>River Master</td><td>Tăng khoảng cách thả câu.</td><td></td></tr>
+              <tr><td>Seasoned Angler</td><td>Tăng lượng <strong>XP</strong> nhận được khi câu.</td><td></td></tr>
+              <tr><td>Survivalist</td><td>Tự động <strong>Nấu</strong> cá nếu câu được cá sống.</td><td></td></tr>
+              <!-- Weapon Enchantments -->
+              <tr><td>Bane of Netherspawn</td><td>Tăng sát thương với quái ở <strong>Nether</strong>.</td><td></td></tr>
+              <tr><td>Blindness</td><td>Gây hiệu ứng <strong>Mù</strong> cho mục tiêu.</td><td></td></tr>
+              <tr><td>Confusion</td><td>Gây hiệu ứng <strong>Buồn Nôn</strong> cho mục tiêu.</td><td></td></tr>
+              <tr><td>Cure</td><td>Chữa <strong>Heo Zombified</strong> và <strong>Dân Làng Zombie</strong> khi giết.</td><td></td></tr>
+              <tr><td>Curse of Death</td><td>Có cơ hội chết nếu bạn giết người chơi khác.</td><td></td></tr>
+              <tr><td>Cutter</td><td>Phá và làm rơi giáp của mục tiêu.</td><td></td></tr>
+              <tr><td>Decapitator</td><td>Có cơ hội thu được <strong>Đầu</strong> của mục tiêu.</td><td></td></tr>
+              <tr><td>Double Strike</td><td>Tăng gấp đôi sát thương.</td><td></td></tr>
+              <tr><td>Exhaust</td><td>Gây hiệu ứng <strong>Đói</strong> cho mục tiêu.</td><td></td></tr>
+              <tr><td>Ice Aspect</td><td>Làm đóng băng và gây <strong>Chậm</strong> cho mục tiêu.</td><td></td></tr>
+              <tr><td>Infernus</td><td>Đốt cháy mục tiêu khi dùng <strong>Đinh Ba</strong>.</td><td></td></tr>
+              <tr><td>Nimble</td><td>Tự động đưa vật phẩm rơi từ quái vào inventory.</td><td></td></tr>
+              <tr><td>Paralyze</td><td>Gây hiệu ứng <strong>Mệt mỏi Đào</strong> cho mục tiêu.</td><td></td></tr>
+              <tr><td>Rage</td><td>Nhận hiệu ứng <strong>Sức Mạnh</strong> trong chiến đấu.</td><td></td></tr>
+              <tr><td>Rocket</td><td>Đẩy mục tiêu bay lên trời.</td><td></td></tr>
+              <tr><td>Swiper</td><td>Cướp <strong>XP</strong> của người chơi bị tấn công.</td><td></td></tr>
+              <tr><td>Temper</td><td>Tăng sát thương khi bạn càng thấp máu.</td><td></td></tr>
+              <tr><td>Thrifty</td><td>Có cơ hội làm rơi <strong>Trứng Sinh Quái</strong> của mob.</td><td></td></tr>
+              <tr><td>Thunder</td><td>Triệu hồi <strong>Sét</strong> đánh mục tiêu, gây thêm sát thương.</td><td></td></tr>
+              <tr><td>Vampire</td><td>Hút máu từ mục tiêu để hồi cho bạn.</td><td></td></tr>
+              <tr><td>Venom</td><td>Gây hiệu ứng <strong>Độc</strong> cho mục tiêu.</td><td></td></tr>
+              <tr><td>Village Defender</td><td>Tăng sát thương với <strong>Illagers</strong> (cướp bóc, phù thủy).</td><td></td></tr>
+              <tr><td>Wisdom</td><td>Tạo thêm <strong>XP</strong> khi giết quái.</td><td></td></tr>
+              <tr><td>Wither</td><td>Gây hiệu ứng <strong>Héo Úa</strong> cho mục tiêu.</td><td></td></tr>
+              <!-- Universal Enchantments -->
+              <tr><td>Curse of Breaking</td><td>Tốn nhiều độ bền hơn khi sử dụng.</td><td>Unbreaking</td></tr>
+              <tr><td>Curse of Fragility</td><td>Ngăn vật phẩm được sửa hoặc bỏ enchant bằng đe/máy mài.</td><td></td></tr>
+              <tr><td>Curse of Mediocrity</td><td>Loại bỏ enchant khỏi vật phẩm rơi từ khối hoặc quái.</td><td></td></tr>
+              <tr><td>Curse of Misfortune</td><td>Giảm vật phẩm rơi từ khối/quái xuống 0.</td><td>Fortune, Looting</td></tr>
+              <tr><td>Restore</td><td>Bảo vệ vật phẩm khỏi bị phá hủy một lần.</td><td></td></tr>
+              <tr><td>Soulbound</td><td>Giữ vật phẩm không bị rơi khi chết.</td><td>Curse of Vanishing</td></tr>
             </tbody>
           </table>
         </div>
